@@ -3,17 +3,31 @@ import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  addContacts,
-  deleteContacts,
+  requestContacts,
+  requestAddContact,
+  requestDeleteContact,
   onFilterChange,
 } from 'redux/contactsSlice';
+import {
+  selectContacts,
+  selectError,
+  selectFilterValue,
+  selectIsLoading,
+} from 'redux/selectors';
+import { useEffect } from 'react';
 
 export const App = () => {
-  const contacts = useSelector(state => state.contacts.contacts);
-  const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  const filter = useSelector(selectFilterValue);
 
-  const handleSubmit = newContact => {
+  useEffect(() => {
+    dispatch(requestContacts());
+  }, [dispatch]);
+
+  const handleAddContact = newContact => {
     const contactsLists = contacts.some(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
@@ -22,11 +36,11 @@ export const App = () => {
       alert(`${newContact.name} is already in contacts`);
       return;
     }
-    dispatch(addContacts(newContact));
+    dispatch(requestAddContact(newContact));
   };
 
   const handleDelete = contactName => {
-    dispatch(deleteContacts(contactName));
+    dispatch(requestDeleteContact(contactName));
   };
 
   const handleChangeFilter = filter => {
@@ -46,8 +60,9 @@ export const App = () => {
       }}
     >
       <h1>Phonebook</h1>
-      <ContactForm handleSubmit={handleSubmit} />
+      <ContactForm handleSubmit={handleAddContact} />
       <h2> Contacts</h2>
+      {/* {error && <h3>{error}</h3>} */}
       <Filter filter={filter} handleChange={handleChangeFilter} />
       <ContactList
         contacts={contacts}
