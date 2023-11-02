@@ -64,6 +64,8 @@ export const App = () => {
       <h2> Contacts</h2>
       {/* {error && <h3>{error}</h3>} */}
       <Filter filter={filter} handleChange={handleChangeFilter} />
+      {isLoading && <p>Loading contacts ... </p>}
+      {error && <p>{error}</p>}
       <ContactList
         contacts={contacts}
         filter={filter}
