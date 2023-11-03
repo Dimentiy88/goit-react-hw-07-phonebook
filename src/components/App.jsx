@@ -6,8 +6,7 @@ import {
   requestContacts,
   requestAddContact,
   requestDeleteContact,
-  onFilterChange,
-} from 'redux/contactsSlice';
+} from 'redux/thunks';
 import {
   selectContacts,
   selectError,
@@ -15,6 +14,7 @@ import {
   selectIsLoading,
 } from 'redux/selectors';
 import { useEffect } from 'react';
+import { onFilterChange } from 'redux/contactsSlice';
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -62,7 +62,6 @@ export const App = () => {
       <h1>Phonebook</h1>
       <ContactForm handleSubmit={handleAddContact} />
       <h2> Contacts</h2>
-      {/* {error && <h3>{error}</h3>} */}
       <Filter filter={filter} handleChange={handleChangeFilter} />
       {isLoading && <p>Loading contacts ... </p>}
       {error && <p>{error}</p>}

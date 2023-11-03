@@ -1,6 +1,6 @@
 import css from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { requestDeleteContact } from 'redux/contactsSlice';
+import { requestDeleteContact } from 'redux/thunks';
 import { selectContacts, selectFilterValue } from 'redux/selectors';
 
 export const ContactList = () => {
@@ -21,7 +21,7 @@ export const ContactList = () => {
       <ul className={css.contactList}>
         {filteredContacts.map(contact => (
           <li key={contact.id} className={css.contactListItem}>
-            {contact.name}: {contact.number}
+            {contact.name}: {contact.phone}
             <button
               type="button"
               className={css.contactListItemBtn}
